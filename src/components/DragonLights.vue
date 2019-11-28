@@ -49,13 +49,13 @@ export default class DragonLights extends Vue {
 
 	switchCheck: number[] = [];
 	switchNames = [
-		"First",
-		"Second",
-		"Third",
-		"Fourth",
-		"Fifth",
-		"Sixth",
-		"Seventh",
+		"South of H",
+		"Southwest of E",
+		"North of waterfall",
+		"South of G",
+		"East of C",
+		"On top of B",
+		"Tree between A and B",
 	];
 
 	switchStates: number[] = new Array(this.switchNames.length).fill(0);
