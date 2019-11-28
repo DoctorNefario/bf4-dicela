@@ -26,13 +26,17 @@
 				</tr>
 			</table>
 		</div>
+		<DragonInstructions class="instructions"/>
 	</div>
 </template>
 
 <script lang="ts">
 import { Component, Vue, Watch } from "vue-property-decorator";
+import DragonInstructions from "./DragonInstructions.vue";
 
-@Component
+@Component({
+	components: { DragonInstructions },
+})
 export default class DragonLights extends Vue {
 	lightX = 7;
 	lightY = 5;
@@ -147,6 +151,10 @@ export default class DragonLights extends Vue {
 	flex-flow: wrap;
 	justify-content: space-around;
 	align-items: center;
+}
+
+.instructions {
+	min-width: 50%;
 }
 
 td a {
