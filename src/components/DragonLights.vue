@@ -4,24 +4,21 @@
 			<button @click="onStartClick()">Start</button>
 			<br>
 			<span :key="i" v-for="(name, i) in switchNames">
-				<input :id="`check${name}`" :value="i" type="checkbox" v-model="switchCheck">
-				<label :for="`check${name}`">{{ name }}</label><br>
+				<label><input :value="i" type="checkbox" v-model="switchCheck">{{ name }}</label><br>
 			</span>
 		</div>
 		<div class="dragon-buttons">
 			<button @click="attemptSolve">Solve</button>
 			<br>
-			<button @click="onResetClick" @mouseleave="reset = 3">Reset ({{reset}})</button>
+			<button @blur="onResetBlur" @click="onResetClick" @mouseleave="onResetLeave">Reset ({{reset}})</button>
 			<br>
 		</div>
 		<div class="light-table-wrapper">
 			<table>
-				<tr v-for="y in lightY" :key="y">
-					<td v-for="x in y === 1 || y === lightY ? lightX : 2" :key="x">
-						<a ref="dragonLight" href="#"
-						   @click="onLightClick"
-						   @mouseenter="switchCheck.length < 2 ? $event.target.focus() : false"
-						   @mouseleave="$event.target.blur()"></a>
+				<tr :key="y" v-for="y in lightY">
+					<td :key="x" v-for="x in y === 1 || y === lightY ? lightX : 2">
+						<a @click="onLightClick" @mouseenter="switchCheck.length < 2 ? $event.target.focus() : false"
+						   @mouseleave="$event.target.blur()" href="#" ref="dragonLight"/>
 					</td>
 				</tr>
 			</table>
@@ -110,13 +107,26 @@ export default class DragonLights extends Vue {
 		this.switchCheck = [];
 	}
 
-	onResetClick() {
+	onResetClick(event: MouseEvent) {
 		if (--this.reset > 0) return;
 		this.reset = 3;
 
 		this.startState = 0;
 		this.switchStates.fill(0);
 		this.onStartClick();
+		const t = event.target as HTMLButtonElement;
+		t.disabled = true;
+	}
+
+	onResetLeave(event: MouseEvent) {
+		const t = event.target as HTMLButtonElement;
+		t.blur();
+		t.disabled = false;
+	}
+
+	onResetBlur(event: MouseEvent) {
+		this.reset = 3;
+		(event.target as HTMLButtonElement).disabled = false;
 	}
 
 	drawCurrent() {
